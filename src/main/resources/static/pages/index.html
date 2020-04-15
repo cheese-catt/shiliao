@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>首页</title>
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../css/Pe-icon-7-stroke.css" th:href="@{/css/Pe-icon-7-stroke.css}">
+    <link rel="stylesheet" href="../css/ionicons.min.css" th:href="@{/css/ionicons.min.css}">
+    <link rel="stylesheet" href="../css/magnific-popup.css" th:href="@{/css/magnific-popup.css}">
+    <link rel="stylesheet" href="../css/slick.css" th:href="@{/css/slick.css}">
+    <link rel="stylesheet" href="../css/animate.min.css" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" href="../css/nice-select.css" th:href="@{/css/nice-select.css}">
+    <link rel="stylesheet" href="../css/default.css" th:href="@{/css/default.css}">
+    <link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}">
+
+    <style>
+        .btn
+        {
+            color: #FFFFFF;
+            padding-top: inherit;}
+
+        .header-area
+        {
+            width: 100%;
+            background-color:#9f927C;
+        }
+
+        #logo{
+            height: 100px;
+            width: 100px;
+        }
+
+        .dropdown{
+            background-color: #9f927C;
+
+        }
+        .dropdown, .dropdown-menu li {
+            list-style: none; /* 将默认的列表符号去掉 */
+            padding: 0; /* 将默认的内边距去掉 */
+            margin: 0; /* 将默认的外边距去掉 */
+            background-color: #9f927C;
+        }
+
+        .main-btn{
+        margin-left: 70%;
+            margin-top: 200px;
+        }
+
+        .footer{
+            text-align: center;
+        }
+
+        .dropdown-menu li a{
+            display: block; /* 将链接设为块级元素 */
+            padding: 8px 20px; /* 设置内边距 */
+            color: #FFFFFF; /* 设置文字颜色 */
+            text-decoration: none;
+        }/* 去掉下划线 */
+
+    </style>
+    <style type="text/css">
+        #menu {
+            font:14px verdana, arial, sans-serif; /* 设置文字大小和字体样式 */
+        }
+        #menu, #menu li {
+            list-style:none; /* 将默认的列表符号去掉 */
+            padding:0; /* 将默认的内边距去掉 */
+            margin:0; /* 将默认的外边距去掉 */
+        }
+        #menu li {
+            float:left; /* 往左浮动 */
+        }
+        #menu li a {
+            display: block; /* 将链接设为块级元素 */
+            padding: 8px 20px; /* 设置内边距 */
+            color: #fff; /* 设置文字颜色 */
+            text-decoration: none;
+        }/* 去掉下划线 */
+    </style>
+</head>
+
+<body>
+<div id="preloader">
+    <div id="loader">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+</div>
+
+<!--导航栏开始-->
+<header class="header-area">
+    <div class="navigation">
+        <div class="container-fluid pl-60 pr-60">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg">
+                        <a class="navbar-brand" href="index.html" th:href="@{/user/toIndex}">
+                            <img id="logo" src="../images/logo.png" th:src="@{/images/logo.png}" alt="Logo新">
+                        </a> <!-- Logo -->
+                        <!-- 汉堡按钮 -->
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="toggler-icon"></span>
+                            <span class="toggler-icon"></span>
+                            <span class="toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                            <ul class="navbar-nav m-auto">
+                                <li class="nav-item" ><a href="notes.html">帖子区</a></li>
+                                <li class="nav-item" ><a href="#">精品区</a></li>
+                                <li class="nav-item" ><a href="#">食谱区</a></li>
+                                <!-- 用户下拉列表开始 -->
+                                <li class="dropdown nav-item">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        用户
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <li><a href="#">我的帖子</a></li>
+                                        <li><a href="#">我的收藏</a></li>
+                                        <li><a href="#">我的赞过</a></li>
+                                        <li><a href="#">我的通知</a></li>
+                                        <li><a href="#">我的信息</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div> <!-- navbar collapse -->
+                        <!-- 用户下拉列表结束 -->
+
+                        <div class="user">
+                            <ul id="menu">
+                                <li><a href="login.html">登录</a></li>
+                                <li><a href="regist.html">注册</a></li>
+                            </ul>
+                        </div>
+                    </nav> <!-- navbar -->
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </div> <!-- navigation -->
+</header>
+
+<!--导航栏结束-->
+
+<!--====== 首页图片开始 ======-->
+
+<div class="banner-active">
+    <div class="banner-area d-flex align-items-center bg_cover" style="background-image: url(../images/banner1.jpg);" th:style="'background:url(' + @{/images/banner1.jpg} + ');'">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="banner-content text-center">
+                    <a data-animation="fadeInUp" data-delay="1.2s" class="main-btn" href="notes.html" th:href="@{/user/toIndex}">点击进入论坛</a>
+                    </div>
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+        <div class="banner-shape">
+            <img src="../images/banner-shape.png" alt="shape" th:src="@{/images/banner-shape.png}">
+        </div>
+    </div> <!-- banner area -->
+</div>
+
+<div class="footer">
+    <p>食疗论坛系统</p>
+    <p>广东医科大学2020届信息资源管理毕业生</p>
+</div>
+<!--首页图片结束-->
+
+<!--jquery js-->
+<script src="../js/vendor/modernizr-3.6.0.min.js" th:src="@{/js/vendor/modernizr-3.6.0.min.js}"></script>
+<script src="../js/vendor/jquery-1.12.4.min.js" th:src="@{js/vendor/jquery-1.12.4.min.js}"></script>
+<!--Bootstrap js-->
+<script src="../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
+<!--Slick js-->
+<script src="../js/slick.min.js" th:src="@{/js/slick.min.js}"></script>
+<!--Isotope js-->
+<script src="../js/isotope.pkgd.min.js" th:src="@{/js/isotope.pkgd.min.js}"></script>
+<!--Images Loaded js-->
+<script src="../js/imagesloaded.pkgd.min.js" th:src="@{/js/imagesloaded.pkgd.min.js}"></script>
+<!--Magnific Popup js-->
+<script src="../js/jquery.magnific-popup.min.js" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+<!--Nice Select js-->
+<script src="../js/jquery.nice-select.min.js" th:src="@{/js/jquery.nice-select.min.js}"></script>
+<!--Ajax Contact js-->
+<script src="../js/ajax-contact.js" th:src="@{/js/ajax-contact.js}"></script>
+<!--Main js-->
+<script src="../js/main.js" th:src="@{/js/main.js}"></script>
+
+</body>
+
+</html>
