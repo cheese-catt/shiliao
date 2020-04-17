@@ -32,7 +32,7 @@ public class NotesService {
         Example example = new Example(Notes.class);
         Example.Criteria criteria = example.createCriteria();
 
-        
+
         criteria.andEqualTo("nvalid",true);
         if (Ncategory!=null){
             criteria.andEqualTo("ncategory",Ncategory);

@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2d05166c-c220-49dc-9fc6-7a0f85750b2f" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/shiliao/domain/Nusers.java" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiliao/controller/NotesController.java" afterPath="$PROJECT_DIR$/src/main/java/com/shiliao/controller/NotesController.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiliao/controller/UserController.java" afterPath="$PROJECT_DIR$/src/main/java/com/shiliao/controller/UserController.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiliao/domain/Notes.java" afterPath="$PROJECT_DIR$/src/main/java/com/shiliao/domain/Notes.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiliao/domain/User.java" afterPath="$PROJECT_DIR$/src/main/java/com/shiliao/domain/User.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/shiliao/service/NotesService.java" afterPath="$PROJECT_DIR$/src/main/java/com/shiliao/service/NotesService.java" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shiliao/controller/NotesController.class" afterPath="$PROJECT_DIR$/target/classes/com/shiliao/controller/NotesController.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shiliao/controller/UserController.class" afterPath="$PROJECT_DIR$/target/classes/com/shiliao/controller/UserController.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shiliao/domain/User.class" afterPath="$PROJECT_DIR$/target/classes/com/shiliao/domain/User.class" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/shiliao/service/NotesService.class" afterPath="$PROJECT_DIR$/target/classes/com/shiliao/service/NotesService.class" />
-    </list>
+    <list default="true" id="2d05166c-c220-49dc-9fc6-7a0f85750b2f" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/itcast-user/target/" />
@@ -31,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UserController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UserController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/shiliao/controller/UserController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="106" column="76" lean-forward="true" selection-start-line="106" selection-start-column="76" selection-end-line="106" selection-end-column="76" />
+            <state relative-caret-position="1756">
+              <caret line="103" column="25" lean-forward="false" selection-start-line="103" selection-start-column="18" selection-end-line="103" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -51,18 +39,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NotesService.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NotesService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/shiliao/service/NotesService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="34" column="8" lean-forward="false" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+            <state relative-caret-position="440">
+              <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
               <folding>
-                <element signature="e#2071#2078#0" expanded="true" />
+                <element signature="e#2063#2070#0" expanded="true" />
                 <element signature="method#addNotes#0;class#NotesService#0" expanded="false" />
                 <element signature="method#deleteNotes#0;class#NotesService#0" expanded="false" />
                 <element signature="method#updateNotes#0;class#NotesService#0" expanded="false" />
                 <element signature="method#findNotesByUser#0;class#NotesService#0" expanded="false" />
-                <element signature="e#3564#3571#0" expanded="true" />
+                <element signature="e#3556#3563#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -561,12 +549,12 @@
       <workItem from="1587037081624" duration="11177000" />
       <workItem from="1587085822097" duration="907000" />
       <workItem from="1587092998825" duration="11760000" />
-      <workItem from="1587126250001" duration="9879000" />
+      <workItem from="1587126250001" duration="10384000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="130409000" />
+    <option name="totallyTimeSpent" value="130914000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -862,14 +850,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/shiliao/controller/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="106" column="76" lean-forward="true" selection-start-line="106" selection-start-column="76" selection-end-line="106" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/shiliao/service/UserService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="832">
@@ -1098,16 +1078,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/shiliao/service/NotesService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="34" column="8" lean-forward="false" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+        <state relative-caret-position="440">
+          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding>
-            <element signature="e#2071#2078#0" expanded="true" />
+            <element signature="e#2063#2070#0" expanded="true" />
             <element signature="method#addNotes#0;class#NotesService#0" expanded="false" />
             <element signature="method#deleteNotes#0;class#NotesService#0" expanded="false" />
             <element signature="method#updateNotes#0;class#NotesService#0" expanded="false" />
             <element signature="method#findNotesByUser#0;class#NotesService#0" expanded="false" />
-            <element signature="e#3564#3571#0" expanded="true" />
+            <element signature="e#3556#3563#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/shiliao/controller/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1756">
+          <caret line="103" column="25" lean-forward="false" selection-start-line="103" selection-start-column="18" selection-end-line="103" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
