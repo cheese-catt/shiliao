@@ -2,6 +2,7 @@ package com.shiliao.controller;
 
 import com.shiliao.domain.PageResult;
 import com.shiliao.domain.User;
+import com.shiliao.service.NotesService;
 import com.shiliao.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,15 +18,22 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("user")
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private NotesService notesService;
 
 
+    /**
+     * 登录 并且附带有用户的个人信息
+     * @param user
+     * @param model
+     * @return
+     */
     @PostMapping("login")
-    @ResponseBody
     public PageResult findUser(User user , Model model){
         PageResult result = new PageResult();
 
@@ -41,7 +49,7 @@ public class UserController {
             result.setItems(users);
             result.setFlag(true);
 
-           model.addAttribute(user1);
+           model.addAttribute("user",user1);
             return  result;
         }}
         result.setFlag(false);
@@ -50,8 +58,13 @@ public class UserController {
         return result;
     }
 
+    /**
+     * 注册
+     * @param user
+     * @param model
+     * @return
+     */
     @PostMapping("regist")
-    @ResponseBody
     public PageResult queryUserbyId(User user ,Model model){
         PageResult result = new PageResult();
         if (user!=null) {
@@ -66,11 +79,26 @@ public class UserController {
     }
 
     //获取验证码
-    @ResponseBody
     @GetMapping
     public Object checkCode(HttpServletResponse response, HttpServletRequest request) throws IOException {
         this.userService.getCode(response,request);
         return PageResult.ok();
     }
 
+    /**
+     * 登出
+     * @param session
+     * @return
+     */
+    @PostMapping("logout")
+    public PageResult logout(HttpSession session){
+        session.removeAttribute("user");
+        return PageResult.ok();
+    }
+
+    @PostMapping("notesByUser")
+    public PageResult findNotesByUser(@RequestBody Long Uid){
+        PageResult result =this.notesService.findNotesByUser(Uid);
+        return result;
+    }
 }

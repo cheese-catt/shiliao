@@ -1,12 +1,12 @@
 package com.shiliao.service;
 
 import com.shiliao.domain.User;
-import com.shiliao.mapper.CategoryMapper;
+import com.shiliao.domain.UserDetails;
+import com.shiliao.mapper.UserDetailsMapper;
 import com.shiliao.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 
@@ -25,18 +24,23 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private UserDetailsMapper userDetailsMapper;
 
     //登录找用户
     public User findUser(User user) {
         User record = new User();
         record.setUname(user.getUname());
         record.setUpwd(user.getUpwd());
-        List<User> users = this.userMapper.select(record);
-        if (!CollectionUtils.isEmpty(users)) {
-            return users.get(0);
-        }else{
+        User user1 = this.userMapper.selectOne(user);
+        if (user1==null){
             return null;
         }
+        //找出对应的用户详细信息
+        UserDetails details = this.userDetailsMapper.selectAllByUid(user1.getUid());
+        //把详细信息设置到User中
+        user1.setUserDetails(details);
+        return user1;
     }
 
     //注册

@@ -10,11 +10,11 @@ public class NotesDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer Nid;
-    private String NDimages;
-    private String NDdetails;
-    private Integer NDorder;
-    private Boolean NDvalid;
+    private Integer nid;
+    private String ndimages;
+    private String nddetails;
+    private Integer ndorder;
+    private Boolean ndvalid;
 
     public Integer getId() {
         return id;
@@ -25,42 +25,42 @@ public class NotesDetails {
     }
 
     public Integer getNid() {
-        return Nid;
+        return nid;
     }
 
     public void setNid(Integer nid) {
-        Nid = nid;
+        this.nid = nid;
     }
 
-    public String getNDimages() {
-        return NDimages;
+    public String getNdimages() {
+        return ndimages;
     }
 
-    public void setNDimages(String NDimages) {
-        this.NDimages = NDimages;
+    public void setNdimages(String ndimages) {
+        this.ndimages = ndimages;
     }
 
-    public String getNDdetails() {
-        return NDdetails;
+    public String getNddetails() {
+        return nddetails;
     }
 
-    public void setNDdetails(String NDdetails) {
-        this.NDdetails = NDdetails;
+    public void setNddetails(String nddetails) {
+        this.nddetails = nddetails;
     }
 
-    public Integer getNDorder() {
-        return NDorder;
+    public Integer getNdorder() {
+        return ndorder;
     }
 
-    public void setNDorder(Integer NDorder) {
-        this.NDorder = NDorder;
+    public void setNdorder(Integer ndorder) {
+        this.ndorder = ndorder;
     }
 
-    public Boolean getNDvalid() {
-        return NDvalid;
+    public Boolean getNdvalid() {
+        return ndvalid;
     }
 
-    public void setNDvalid(Boolean NDvalid) {
-        this.NDvalid = NDvalid;
+    public void setNdvalid(Boolean ndvalid) {
+        this.ndvalid = ndvalid;
     }
 }

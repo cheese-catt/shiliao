@@ -1,22 +1,30 @@
 package com.shiliao.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Uid; //
+    private Long Uid; //
     private String Uname; //用户名
     private String Upwd; //密码
     private String Umail; //邮箱
     private Date Udate; //创建日期
     private  Boolean Utype;//用户类型 1代表管理员 0代表普通
     private Boolean Ustate;//用户状态 1代表已激活 0代表未激活
+
+    @Transient
+    private UserDetails userDetails; //用户个性信息
+
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
+    }
 
     public User() {
     }
@@ -29,12 +37,12 @@ public class User {
         Umail = umail;
     }
 
-    public Integer getUid() {
+    public Long getUid() {
 
         return Uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(Long uid) {
         Uid = uid;
     }
 

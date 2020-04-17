@@ -1,102 +1,110 @@
 package com.shiliao.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 @Table(name="notes")
 public class Notes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Nid; //主键
-    private String Ndetails;//主帖内容
-    private boolean Nvaild;//是否显示/删除就把值改为0
-    private Integer NlikeTimes;//点赞数
-    private String Nimages ;//图片，多个图片以‘,’分割
-    private Integer Ncategory;//帖子所在的分区
-    private String Ntitle;//文章标题
-    private Date Ndate;//文章创建时间
-    private Integer Nuid;//外键
-    private Boolean Nflag ;//0为普通 1为精品
+    private Long nid; //主键
+    private String ndetails;//主帖内容
+    private Boolean nvalid;//是否显示/删除就把值改为0
+    private Integer nlikeTimes;//点赞数
+    private String nimages ;//图片，多个图片以‘,’分割
+    private Integer narea;//帖子所在的分区 0为浏览区 1为精品区  默认为0
+    private Integer ncategory;//功效/标签的分类
+    private String ntitle;//文章标题
+    private Date ndate;//文章创建时间
+    private Long nuid;//外键
 
-    public Integer getNid() {
-        return Nid;
+    @Transient
+    private String udnames;
+
+    public Long getNid() {
+        return nid;
     }
 
-    public void setNid(Integer nid) {
-        Nid = nid;
+    public void setNid(Long nid) {
+        this.nid = nid;
     }
 
     public String getNdetails() {
-        return Ndetails;
+        return ndetails;
     }
 
     public void setNdetails(String ndetails) {
-        Ndetails = ndetails;
+        this.ndetails = ndetails;
     }
 
-    public boolean isNvaild() {
-        return Nvaild;
+    public Boolean getNvalid() {
+        return nvalid;
     }
 
-    public void setNvaild(boolean nvaild) {
-        Nvaild = nvaild;
+    public void setNvalid(Boolean nvalid) {
+        this.nvalid = nvalid;
     }
 
     public Integer getNlikeTimes() {
-        return NlikeTimes;
+        return nlikeTimes;
     }
 
     public void setNlikeTimes(Integer nlikeTimes) {
-        NlikeTimes = nlikeTimes;
+        this.nlikeTimes = nlikeTimes;
     }
 
     public String getNimages() {
-        return Nimages;
+        return nimages;
     }
 
     public void setNimages(String nimages) {
-        Nimages = nimages;
+        this.nimages = nimages;
+    }
+
+    public Integer getNarea() {
+        return narea;
+    }
+
+    public void setNarea(Integer narea) {
+        this.narea = narea;
     }
 
     public Integer getNcategory() {
-        return Ncategory;
+        return ncategory;
     }
 
     public void setNcategory(Integer ncategory) {
-        Ncategory = ncategory;
+        this.ncategory = ncategory;
     }
 
     public String getNtitle() {
-        return Ntitle;
+        return ntitle;
     }
 
     public void setNtitle(String ntitle) {
-        Ntitle = ntitle;
+        this.ntitle = ntitle;
     }
 
     public Date getNdate() {
-        return Ndate;
+        return ndate;
     }
 
     public void setNdate(Date ndate) {
-        Ndate = ndate;
+        this.ndate = ndate;
     }
 
-    public Integer getNuid() {
-        return Nuid;
+    public Long getNuid() {
+        return nuid;
     }
 
-    public void setNuid(Integer nuid) {
-        Nuid = nuid;
+    public void setNuid(Long nuid) {
+        this.nuid = nuid;
     }
 
-    public Boolean getNflag() {
-        return Nflag;
+    public String getUdnames() {
+        return udnames;
     }
 
-    public void setNflag(Boolean nflag) {
-        Nflag = nflag;
+    public void setUdnames(String udnames) {
+        this.udnames = udnames;
     }
 }

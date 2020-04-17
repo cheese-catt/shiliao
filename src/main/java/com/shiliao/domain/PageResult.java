@@ -1,13 +1,19 @@
 package com.shiliao.domain;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PageResult<T> {
-    private String Msg;
-    private Long total;
-    private Integer totalPage;
-    private List<T> items;
-    private Boolean flag;
+    private String Msg;//成功/错误信息
+    private Long total; //总的数目
+    private Integer totalPage;//总页码
+    private List<T> items; //具体列表信息
+    private Boolean flag; //用于判断返回给前端的信息是否成功
+    private Map<String,Object> map = new HashMap<String,Object>();
+
+
+
     public static PageResult ok(){
         PageResult pageResult = new PageResult();
         pageResult.setFlag(true);
@@ -15,6 +21,24 @@ public class PageResult<T> {
         return pageResult;
     }
 
+    public static PageResult error(){
+        PageResult pageResult = new PageResult();
+        pageResult.setFlag(false);
+        pageResult.setMsg("请稍等");
+        return pageResult;
+    }
+    public PageResult<T> add(String key,Object value){
+        this.getMap().put(key,value);
+        return this;
+    }
+
+    public Map<String, Object> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, Object> map) {
+        this.map = map;
+    }
     public PageResult(String msg, Long total, Integer totalPage, List<T> items, Boolean flag) {
         Msg = msg;
         this.total = total;
