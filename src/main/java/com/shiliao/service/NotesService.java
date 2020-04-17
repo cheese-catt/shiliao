@@ -25,12 +25,14 @@ public class NotesService {
     @Autowired
     private UserDetailsMapper userDetailsMapper;
 
+    //找所有帖子
     public PageResult<Notes> findNotesByPage(String key, Integer page, Integer rows, Boolean desc,String sortBy,String Ncategory,Integer Narea) {
 
         //初始化example对象
         Example example = new Example(Notes.class);
         Example.Criteria criteria = example.createCriteria();
 
+        
         criteria.andEqualTo("nvalid",true);
         if (Ncategory!=null){
             criteria.andEqualTo("ncategory",Ncategory);
@@ -69,6 +71,7 @@ public class NotesService {
 
     }
 
+    //添加帖子
     public PageResult<Notes> addNotes(Notes notes) {
         notes.setNdate(new Date());
 
@@ -76,6 +79,7 @@ public class NotesService {
         return PageResult.ok().add("notes",notes);
     }
 
+    //删除帖子
     public PageResult<Notes> deleteNotes(Long id){
         Notes notes = new Notes();
         notes.setNid(id);
@@ -85,22 +89,46 @@ public class NotesService {
         return PageResult.ok();
     }
 
+    //更新帖子
     public PageResult<Notes> updateNotes(Notes notes) {
         this.notesMapper.updateByPrimaryKeySelective(notes);
         return PageResult.ok().add("notes",notes);
     }
 
+    //找到当前用户下的帖子
+    public PageResult findNotesByUser(Integer page,Integer rows,Long uid) {
 
-    public PageResult findNotesByUser(Long uid) {
-        Notes record = new Notes();
-        record.setNuid(uid);
-        record.setNvalid(true);
-        List<Notes> notes = this.notesMapper.select(record);
+        //初始化example对象
+        Example example = new Example(Notes.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        //显示存在的数据,和对应的用户下的帖子
+        criteria.andEqualTo("nvalid",true).andEqualTo("nuid",uid);
+        //添加排序条件
+            example.setOrderByClause("ndate"+" "+ "desc");
+
+        //添加分页条件
+        PageHelper.startPage(page,rows);
+
+        //找到用户对应的帖子
+        List<Notes> notes = this.notesMapper.selectByExample(example);
+
+
+        //把帖子都包装进去
+        PageInfo<Notes> pageInfo = new PageInfo<Notes>(notes);
+
+        return new PageResult<>(pageInfo.getTotal(),pageInfo.getPages(),pageInfo.getList(),true);
+        /*
         PageResult result = new PageResult();
         result.setItems(notes);
         result.setFlag(true);
         result.setMsg("返回成功");
+        long l = Long.parseLong(count.toString());
+        result.setTotal(l);
         return result;
+                //查找总数
+        Integer count =(Integer) this.notesMapper.selectCount(record);
+        */
     }
 
 

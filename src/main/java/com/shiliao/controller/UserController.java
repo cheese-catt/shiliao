@@ -79,7 +79,7 @@ public class UserController {
     }
 
     //获取验证码
-    @GetMapping
+    @GetMapping("getcode")
     public Object checkCode(HttpServletResponse response, HttpServletRequest request) throws IOException {
         this.userService.getCode(response,request);
         return PageResult.ok();
@@ -90,15 +90,21 @@ public class UserController {
      * @param session
      * @return
      */
-    @PostMapping("logout")
+    @GetMapping("logout")
     public PageResult logout(HttpSession session){
         session.removeAttribute("user");
         return PageResult.ok();
     }
 
+    /**
+     * 通过用户ID得到用户自己发的帖子
+     * @param uid
+     * @return
+     */
     @PostMapping("notesByUser")
-    public PageResult findNotesByUser(@RequestBody Long Uid){
-        PageResult result =this.notesService.findNotesByUser(Uid);
+    public PageResult findNotesByUser( Long uid,@RequestParam(value = "page",required = false,defaultValue = "1")Integer page,
+                                       @RequestParam(value = "rows",required = false,defaultValue = "8")Integer rows){
+        PageResult result =this.notesService.findNotesByUser(page,rows,uid);
         return result;
     }
 }

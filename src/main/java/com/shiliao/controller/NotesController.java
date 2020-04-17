@@ -24,16 +24,16 @@ public class NotesController {
      * @param sortBy
      * @return
      */
-    @PostMapping("findAll")
+    @GetMapping("findAll")
     public PageResult<Notes> findAll(@RequestParam(value = "page",required = false,defaultValue = "1")Integer page,
                                      @RequestParam(value = "key",required = false)String key,
                                      @RequestParam(value = "rows",required = false,defaultValue = "8")Integer rows,
                                      @RequestParam(value = "desc",required = false)Boolean desc,
                                      @RequestParam(value = "sortBy",required = false)String sortBy,
-                                     @RequestParam(value = "Ncategory",required = false)String Ncategory,
-                                     @RequestParam(value = "Narea",required = false)Integer Narea){
+                                     @RequestParam(value = "ncategory",required = false)String ncategory,
+                                     @RequestParam(value = "narea",required = false)Integer narea){
 
-        PageResult<Notes> result=this.notesService.findNotesByPage(key,page,rows,desc,sortBy,Ncategory,Narea);
+        PageResult<Notes> result=this.notesService.findNotesByPage(key,page,rows,desc,sortBy,ncategory,narea);
         if (CollectionUtils.isEmpty(result.getItems())){
             return null;
         }
@@ -54,12 +54,12 @@ public class NotesController {
 
     /**
      * 删除帖子
-     * @param Nid
+     * @param nid
      * @return
      */
     @PostMapping("deleteNotes")
-    public PageResult<Notes> deleteNotes(Long Nid){
-        PageResult<Notes> result = this.notesService.deleteNotes(Nid);
+    public PageResult<Notes> deleteNotes(Long nid){
+        PageResult<Notes> result = this.notesService.deleteNotes(nid);
         return result;
     }
 
@@ -77,5 +77,15 @@ public class NotesController {
         return  result;
     }
 
+    /**
+     * 找到具体的帖子信息
+     * @param nid
+     * @param uid
+     * @return
+     */
+    @PostMapping
+    public PageResult<Notes> findNotesAndDetails(Long nid,Long uid){
+        return null;
+    }
 
 }

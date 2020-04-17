@@ -18,7 +18,18 @@ public class Notes {
     private Long nuid;//外键
 
     @Transient
+    private NotesDetails notesDetails;
+
+    @Transient
     private String udnames;
+
+    public NotesDetails getNotesDetails() {
+        return notesDetails;
+    }
+
+    public void setNotesDetails(NotesDetails notesDetails) {
+        this.notesDetails = notesDetails;
+    }
 
     public Long getNid() {
         return nid;

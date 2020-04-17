@@ -7,13 +7,13 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Uid; //
-    private String Uname; //用户名
-    private String Upwd; //密码
-    private String Umail; //邮箱
-    private Date Udate; //创建日期
-    private  Boolean Utype;//用户类型 1代表管理员 0代表普通
-    private Boolean Ustate;//用户状态 1代表已激活 0代表未激活
+    private Long uid; //
+    private String uname; //用户名
+    private String upwd; //密码
+    private String umail; //邮箱
+    private Date udate; //创建日期
+    private  Boolean utype;//用户类型 1代表管理员 0代表普通
+    private Boolean ustate;//用户状态 1代表已激活 0代表未激活
 
     @Transient
     private UserDetails userDetails; //用户个性信息
@@ -29,60 +29,59 @@ public class User {
     public User() {
     }
 
-    public String getUmail() {
-        return Umail;
-    }
-
-    public void setUmail(String umail) {
-        Umail = umail;
-    }
-
     public Long getUid() {
-
-        return Uid;
+        return uid;
     }
 
     public void setUid(Long uid) {
-        Uid = uid;
+        this.uid = uid;
     }
 
     public String getUname() {
-        return Uname;
+        return uname;
     }
 
     public void setUname(String uname) {
-        Uname = uname;
+        this.uname = uname;
     }
 
     public String getUpwd() {
-        return Upwd;
+        return upwd;
     }
 
     public void setUpwd(String upwd) {
-        Upwd = upwd;
+        this.upwd = upwd;
+    }
+
+    public String getUmail() {
+        return umail;
+    }
+
+    public void setUmail(String umail) {
+        this.umail = umail;
     }
 
     public Date getUdate() {
-        return Udate;
+        return udate;
     }
 
     public void setUdate(Date udate) {
-        Udate = udate;
+        this.udate = udate;
     }
 
     public Boolean getUtype() {
-        return Utype;
+        return utype;
     }
 
     public void setUtype(Boolean utype) {
-        Utype = utype;
+        this.utype = utype;
     }
 
     public Boolean getUstate() {
-        return Ustate;
+        return ustate;
     }
 
     public void setUstate(Boolean ustate) {
-        Ustate = ustate;
+        this.ustate = ustate;
     }
 }
