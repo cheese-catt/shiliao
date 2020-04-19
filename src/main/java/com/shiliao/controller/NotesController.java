@@ -2,11 +2,14 @@ package com.shiliao.controller;
 
 import com.shiliao.domain.Notes;
 import com.shiliao.domain.PageResult;
+import com.shiliao.mapper.NotesDetailsMapper;
+import com.shiliao.service.NotesDetailsService;
 import com.shiliao.service.NotesService;
 import com.shiliao.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +24,9 @@ public class NotesController {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private NotesDetailsService notesDetailsService;
 
     /**
      * 找到所有帖子，并进行分页
@@ -65,9 +71,11 @@ public class NotesController {
      * @return
      */
     @PostMapping("deleteNotes")
-    public PageResult<Notes> deleteNotes(Long nid){
-        PageResult<Notes> result = this.notesService.deleteNotes(nid);
-        return result;
+    public PageResult<Notes> deleteNotes(Long nid,Long uid){
+        if (nid!=null&&uid!=null) {
+            return this.notesService.deleteNotes(nid, uid);
+        }
+        return PageResult.error();
     }
 
     /**
@@ -96,6 +104,27 @@ public class NotesController {
                                                  @RequestParam(value = "asc",required = false,defaultValue = "true")Boolean asc){
         PageResult<Notes> notesDetails=this.notesService.findNotesAndDetails(nid,uid,page,rows,asc);
         return notesDetails;
+    }
+
+    /**
+     * 找到通知
+     * @param uid
+     * @return
+     */
+    @RequestMapping("findNotice")
+    public PageResult findNotice(Long uid){
+        if (!StringUtils.isEmpty(uid)){
+            return this.notesDetailsService.findNotice(uid);
+        }
+        return PageResult.error();
+    }
+
+    @RequestMapping("setNotice")
+    public PageResult setRead(String id){
+        if (id != null) {
+           return this.notesDetailsService.setRead(id);
+        }
+        return PageResult.error();
     }
 
 

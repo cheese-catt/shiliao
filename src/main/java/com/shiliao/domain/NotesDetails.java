@@ -1,6 +1,7 @@
 package com.shiliao.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "notes_details")
 public class NotesDetails {
@@ -14,9 +15,40 @@ public class NotesDetails {
     private Boolean ndvalid;//是否显示
     private Boolean ndread;//是否已读
     private Long uid;//用户ID
+    private Date nddate;//评论的时间
 
     @Transient
     private UserDetails userDetails;
+
+    @Transient
+    private String udnames;//用户名
+
+    @Transient
+    private String ntitle;//对应的帖子标题
+
+    public String getUdnames() {
+        return udnames;
+    }
+
+    public void setUdnames(String udnames) {
+        this.udnames = udnames;
+    }
+
+    public String getNtitle() {
+        return ntitle;
+    }
+
+    public void setNtitle(String ntitle) {
+        this.ntitle = ntitle;
+    }
+
+    public Date getNddate() {
+        return nddate;
+    }
+
+    public void setNddate(Date nddate) {
+        this.nddate = nddate;
+    }
 
     public UserDetails getUserDetails() {
         return userDetails;

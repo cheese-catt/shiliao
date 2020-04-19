@@ -30,10 +30,15 @@ public class NotesDetailController {
       return PageResult.error();
     }
 
+    /**
+     * 删除评论
+     * @param id
+     * @return
+     */
     @RequestMapping("deleteDetails")
-    public PageResult deleteDetail(Long id){
-        if (id !=null){
-            return this.notesDetailsService.deleteDetail(id);
+    public PageResult<NotesDetails> deleteDetail(Long id,Long detailsUserid,Long uid){
+        if (id !=null&&uid!=null){
+            return this.notesDetailsService.deleteDetail(id,detailsUserid,uid);
         }
         return PageResult.error();
     }

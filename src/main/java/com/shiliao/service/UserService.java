@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
+import java.util.UUID;
 
 
 @Service
@@ -62,6 +63,8 @@ public class UserService {
         this.nusersMapper.insertSelective(nusers);
         //往用户个人信息表插入数据
         UserDetails userDetails = new UserDetails();
+
+        userDetails.setUdnames(UUID.randomUUID().toString()+"未命名");
         userDetails.setUid(user.getUid());
         this.userDetailsMapper.insertSelective(userDetails);
     }

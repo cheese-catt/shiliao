@@ -29,6 +29,8 @@ public class NotesService {
 
     @Autowired
     private NusersMapper nusersMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     //找所有帖子
     public PageResult<Notes> findNotesByPage(String key, Integer page, Integer rows, Boolean desc,String sortBy,String Ncategory,Integer Narea) {
@@ -105,13 +107,21 @@ public class NotesService {
     }
 
     //删除帖子
-    public PageResult<Notes> deleteNotes(Long id){
-        Notes notes = new Notes();
-        notes.setNid(id);
-        notes.setNvalid(false);
-        int i = this.notesMapper.updateByPrimaryKeySelective(notes);
+    public PageResult<Notes> deleteNotes(Long id,Long uid){
+        //通过主键查询出帖子的具体信息
+        Notes notes1 = this.notesMapper.selectByPrimaryKey(id);
+        //通过主键查询用户的信息
+        User user = this.userMapper.selectByPrimaryKey(uid);
+        if (notes1.getNuid().equals(uid)||user.getUtype()){
+            //如果是本用户发的帖子，或者管理员就可以删除
+            Notes notes = new Notes();
+            notes.setNid(id);
+            notes.setNvalid(false);
+            int i = this.notesMapper.updateByPrimaryKeySelective(notes);
 
-        return PageResult.ok();
+            return PageResult.ok();
+        }
+        return PageResult.error();
     }
 
     //更新帖子
@@ -238,4 +248,6 @@ public class NotesService {
         result.setItems(Arrays.asList(notes));
         return result;
     }
+
+
 }
