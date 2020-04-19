@@ -10,6 +10,7 @@ public class Ncategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cid;
+
     private String category;
 
     public Long getCid() {

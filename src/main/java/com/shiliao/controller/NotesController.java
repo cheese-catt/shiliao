@@ -3,10 +3,14 @@ package com.shiliao.controller;
 import com.shiliao.domain.Notes;
 import com.shiliao.domain.PageResult;
 import com.shiliao.service.NotesService;
+import com.shiliao.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("notes")
@@ -14,6 +18,9 @@ public class NotesController {
 
     @Autowired
     private NotesService notesService;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     /**
      * 找到所有帖子，并进行分页
@@ -28,7 +35,7 @@ public class NotesController {
     public PageResult<Notes> findAll(@RequestParam(value = "page",required = false,defaultValue = "1")Integer page,
                                      @RequestParam(value = "key",required = false)String key,
                                      @RequestParam(value = "rows",required = false,defaultValue = "8")Integer rows,
-                                     @RequestParam(value = "desc",required = false)Boolean desc,
+                                     @RequestParam(value = "desc",required = false,defaultValue = "true")Boolean desc,
                                      @RequestParam(value = "sortBy",required = false)String sortBy,
                                      @RequestParam(value = "ncategory",required = false)String ncategory,
                                      @RequestParam(value = "narea",required = false)Integer narea){
@@ -68,7 +75,7 @@ public class NotesController {
      * @param notes
      * @return
      */
-    @PostMapping
+    @PostMapping("updateNotes")
     public PageResult<Notes> updateNotes(@RequestBody Notes notes){
         if (notes.getNid()==null){
             return PageResult.error();
@@ -83,9 +90,22 @@ public class NotesController {
      * @param uid
      * @return
      */
-    @PostMapping
-    public PageResult<Notes> findNotesAndDetails(Long nid,Long uid){
-        return null;
+    @PostMapping("findNotesAndDetails")
+    public PageResult<Notes> findNotesAndDetails(Long nid,Long uid,@RequestParam(value = "page",required = false,defaultValue = "1")Integer page,
+                                                 @RequestParam(value = "rows",required = false,defaultValue = "7")Integer rows,
+                                                 @RequestParam(value = "asc",required = false,defaultValue = "true")Boolean asc){
+        PageResult<Notes> notesDetails=this.notesService.findNotesAndDetails(nid,uid,page,rows,asc);
+        return notesDetails;
     }
 
+
+    /**
+     * 图片上传
+     * @param file
+     * @return
+     */
+    @RequestMapping("imageUpload")
+    public Map imageUpload(@RequestParam("nimage") MultipartFile file) {
+        return this.userDetailsService.upload(file);
+    }
 }

@@ -1,7 +1,9 @@
 package com.shiliao.service;
 
+import com.shiliao.domain.Nusers;
 import com.shiliao.domain.User;
 import com.shiliao.domain.UserDetails;
+import com.shiliao.mapper.NusersMapper;
 import com.shiliao.mapper.UserDetailsMapper;
 import com.shiliao.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class UserService {
     @Autowired
     private UserDetailsMapper userDetailsMapper;
 
+    @Autowired
+    private NusersMapper nusersMapper;
+
     //登录找用户
     public User findUser(User user) {
         User record = new User();
@@ -46,10 +51,19 @@ public class UserService {
     //注册
     @Transactional
     public void insertUser(User user) {
+        //往User表插入当前用户数据
         user.setUdate(new Date());
         user.setUtype(false);
         user.setUstate(false);
         this.userMapper.insertSelective(user);
+        //往Nusers插入当前用户数据
+        Nusers nusers = new Nusers();
+        nusers.setUid(user.getUid());
+        this.nusersMapper.insertSelective(nusers);
+        //往用户个人信息表插入数据
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUid(user.getUid());
+        this.userDetailsMapper.insertSelective(userDetails);
     }
 
     //获取验证码
@@ -102,5 +116,9 @@ public class UserService {
         g.drawString(checkCode,15,25);
 
         ImageIO.write(image, "PNG", response.getOutputStream());
+    }
+
+    public void updateUser(User user) {
+        this.userMapper.updateByPrimaryKeySelective(user);
     }
 }

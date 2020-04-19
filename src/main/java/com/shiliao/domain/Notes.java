@@ -2,32 +2,59 @@ package com.shiliao.domain;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 @Table(name="notes")
 public class Notes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long nid; //主键
+
     private String ndetails;//主帖内容
     private Boolean nvalid;//是否显示/删除就把值改为0
     private Integer nlikeTimes;//点赞数
     private String nimages ;//图片，多个图片以‘,’分割
     private Integer narea;//帖子所在的分区 0为浏览区 1为精品区  默认为0
-    private Integer ncategory;//功效/标签的分类
+    private String ncategory;//功效/标签的分类
     private String ntitle;//文章标题
     private Date ndate;//文章创建时间
     private Long nuid;//外键
 
     @Transient
-    private NotesDetails notesDetails;
+    private List<NotesDetails> notesDetails; //具体的评论数
 
     @Transient
-    private String udnames;
+    private String udnames; //用户名
+    @Transient
+    private String udsex;//帖子用户的性别
+    @Transient
+    private String udimages;//帖子用户的头像
 
-    public NotesDetails getNotesDetails() {
+    public String getUdsex() {
+        return udsex;
+    }
+
+    public void setUdsex(String udsex) {
+        this.udsex = udsex;
+    }
+
+    public String getUdimages() {
+        return udimages;
+    }
+
+    public void setUdimages(String udimages) {
+        this.udimages = udimages;
+    }
+
+    @Transient
+    private List<Map<String,String>> ncategorys; //标签的集合
+
+    public List<NotesDetails> getNotesDetails() {
         return notesDetails;
     }
 
-    public void setNotesDetails(NotesDetails notesDetails) {
+    public void setNotesDetails(List<NotesDetails> notesDetails) {
         this.notesDetails = notesDetails;
     }
 
@@ -79,12 +106,20 @@ public class Notes {
         this.narea = narea;
     }
 
-    public Integer getNcategory() {
+    public String getNcategory() {
         return ncategory;
     }
 
-    public void setNcategory(Integer ncategory) {
+    public void setNcategory(String ncategory) {
         this.ncategory = ncategory;
+    }
+
+    public List<Map<String, String>> getNcategorys() {
+        return ncategorys;
+    }
+
+    public void setNcategorys(List<Map<String, String>> ncategorys) {
+        this.ncategorys = ncategorys;
     }
 
     public String getNtitle() {

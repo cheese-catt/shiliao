@@ -15,7 +15,7 @@ public class UserDetails {
     private Date udbirthday;//生日
     private String udsign;//个性签名
     private String udimage;//头像
-    private Boolean udsex;//性别
+    private String udsex;//性别
     private Long uid;//外键
 
     public Long getUdid() {
@@ -58,11 +58,11 @@ public class UserDetails {
         this.udimage = udimage;
     }
 
-    public Boolean getUdsex() {
+    public String getUdsex() {
         return udsex;
     }
 
-    public void setUdsex(Boolean udsex) {
+    public void setUdsex(String udsex) {
         this.udsex = udsex;
     }
 

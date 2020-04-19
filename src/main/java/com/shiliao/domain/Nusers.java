@@ -12,7 +12,8 @@ public class Nusers {
     private Long id; //主键
 
     private Long uid;  //用户id
-    private Long nids; //用户收藏的帖子ID
+    private String nids; //用户收藏的帖子ID，多个以逗号隔开
+    private String nlike; //用户点赞的帖子ID，多个以逗号分隔
 
     public Long getId() {
         return id;
@@ -30,11 +31,19 @@ public class Nusers {
         this.uid = uid;
     }
 
-    public Long getNids() {
+    public String getNids() {
         return nids;
     }
 
-    public void setNids(Long nids) {
+    public void setNids(String nids) {
         this.nids = nids;
+    }
+
+    public String getNlike() {
+        return nlike;
+    }
+
+    public void setNlike(String nlike) {
+        this.nlike = nlike;
     }
 }

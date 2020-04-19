@@ -6,6 +6,6 @@ import tk.mybatis.mapper.common.Mapper;
 
 public interface UserDetailsMapper extends Mapper<UserDetails> {
 
-    @Select("select * from u_details where uid =#{Uid} ")
-    UserDetails selectAllByUid(Long Uid);
+    @Select("select * from u_details where uid =#{uid} ")
+    UserDetails selectAllByUid(Long uid);
 }
