@@ -5,6 +5,7 @@ import com.shiliao.domain.UserDetails;
 import com.shiliao.mapper.UserDetailsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
@@ -17,6 +18,7 @@ public class UserDetailsService {
     @Autowired
     UserDetailsMapper userDetailsMapper;
 
+    @Transactional
     public PageResult updateUserDetails(UserDetails userDetails) {
        this.userDetailsMapper.updateByPrimaryKeySelective(userDetails);
        PageResult pageResult = new PageResult();

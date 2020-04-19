@@ -121,7 +121,9 @@ public class UserService {
         ImageIO.write(image, "PNG", response.getOutputStream());
     }
 
+    @Transactional
     public void updateUser(User user) {
+        user.setUname(null);
         this.userMapper.updateByPrimaryKeySelective(user);
     }
 }

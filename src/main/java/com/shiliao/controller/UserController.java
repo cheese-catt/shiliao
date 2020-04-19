@@ -107,4 +107,20 @@ public class UserController {
         PageResult result =this.notesService.findNotesByUser(page,rows,uid);
         return result;
     }
+
+    /**
+     * 修改密码
+     * @param user
+     * @return
+     */
+    @RequestMapping("update")
+    public PageResult updateUser(@RequestBody User user){
+        try {
+            this.userService.updateUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
+        return PageResult.ok();
+    }
 }

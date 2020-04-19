@@ -119,6 +119,11 @@ public class NotesController {
         return PageResult.error();
     }
 
+    /**
+     * 设置为已读
+     * @param id
+     * @return
+     */
     @RequestMapping("setNotice")
     public PageResult setRead(String id){
         if (id != null) {
@@ -127,7 +132,42 @@ public class NotesController {
         return PageResult.error();
     }
 
+    /**
+     * 点赞
+     * @param nid
+     * @param uid
+     * @return
+     */
+    @RequestMapping("setlike")
+    public PageResult setlike(Long nid,Long uid,Integer nlikeTimes){
+        if (nid!=null&&uid!=null){
+            if (nlikeTimes==null) {
+                nlikeTimes=0;
+                return this.notesService.setlike(nid, uid, nlikeTimes);
+            }
+        }
+        return PageResult.error();
+    }
 
+    /**
+     * 取消点赞
+     * @param nid
+     * @param uid
+     * @param nlikeTimes
+     * @return
+     */
+    @RequestMapping("unlike")
+    public PageResult unlike(Long nid,Long uid,Integer nlikeTimes){
+        if (nid!=null&&uid!=null){
+            if (nlikeTimes==null) {
+                nlikeTimes=0;
+                return this.notesService.unlike(nid, uid, nlikeTimes);
+            }else {
+                return this.notesService.unlike(nid, uid, nlikeTimes);
+            }
+        }
+        return PageResult.error();
+    }
     /**
      * 图片上传
      * @param file

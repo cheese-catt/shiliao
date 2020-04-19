@@ -33,6 +33,7 @@ public class UserDetailsController {
      * @param user
      * @return
      */
+    @RequestMapping("update")
     public PageResult updateUserDetails(@RequestBody User user){
 
         try {

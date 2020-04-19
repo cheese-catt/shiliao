@@ -11,6 +11,7 @@ import com.shiliao.mapper.UserDetailsMapper;
 import com.shiliao.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
@@ -32,6 +33,7 @@ public class NotesDetailsService {
     private NotesMapper notesMapper;
 
     //添加评论
+    @Transactional
     public PageResult insertDetail(NotesDetails notesDetails) {
 
         //设置未读并且可显示
@@ -61,6 +63,7 @@ public class NotesDetailsService {
     }
 
     //删除评论
+    @Transactional
     public PageResult deleteDetail(Long id,Long detailsUserid,Long uid) {
         //查询用户是否有管理员权限
         User user = this.userMapper.selectByPrimaryKey(uid);
@@ -104,6 +107,7 @@ public class NotesDetailsService {
         }
     }
 
+    //设置已读
     public PageResult setRead(String ids) {
         //将数据分割组成成一个数组
         List<String> ids1 = Arrays.asList(ids.split(","));

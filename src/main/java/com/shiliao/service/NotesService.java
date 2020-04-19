@@ -6,6 +6,7 @@ import com.shiliao.domain.*;
 import com.shiliao.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +32,7 @@ public class NotesService {
     private NusersMapper nusersMapper;
     @Autowired
     private UserMapper userMapper;
+
 
     //找所有帖子
     public PageResult<Notes> findNotesByPage(String key, Integer page, Integer rows, Boolean desc,String sortBy,String Ncategory,Integer Narea) {
@@ -99,6 +101,7 @@ public class NotesService {
     }
 
     //添加帖子
+    @Transactional
     public PageResult<Notes> addNotes(Notes notes) {
         notes.setNdate(new Date());
 
@@ -107,6 +110,7 @@ public class NotesService {
     }
 
     //删除帖子
+    @Transactional
     public PageResult<Notes> deleteNotes(Long id,Long uid){
         //通过主键查询出帖子的具体信息
         Notes notes1 = this.notesMapper.selectByPrimaryKey(id);
@@ -125,6 +129,7 @@ public class NotesService {
     }
 
     //更新帖子
+    @Transactional
     public PageResult<Notes> updateNotes(Notes notes) {
         this.notesMapper.updateByPrimaryKeySelective(notes);
         return PageResult.ok().add("notes",notes);
@@ -249,5 +254,66 @@ public class NotesService {
         return result;
     }
 
+    //点赞
+    @Transactional
+    public PageResult setlike(Long nid,Long uid,Integer likeTimes){
+       // 找到当前帖子下的点赞数
+        Notes notes = new Notes();
+        notes.setNid(nid);
+        notes.setNlikeTimes(likeTimes+1);
+        this.notesMapper.updateByPrimaryKeySelective(notes);
+        //获取点赞的数据
+        Nusers nusers = this.nusersMapper.selectByuid(uid);
+        String nlike = nusers.getNlike();
 
+        if (!StringUtils.isEmpty(nlike)){
+            //如果点赞不为空
+            nlike=nlike + "," +nid.toString();
+        }else {
+            //如果为空
+            nlike=nid.toString();
+        }
+        //将点赞的数据设置好
+        nusers.setNlike(nlike);
+        //对表进行更新
+        this.nusersMapper.updateByPrimaryKeySelective(nusers);
+        Integer liketime=likeTimes+1;
+        return PageResult.ok().add("likeTimes",liketime);
+    }
+
+    @Transactional
+    //取消点赞
+    public PageResult unlike(Long nid, Long uid, Integer nlikeTimes) {
+        // 找到当前帖子下的点赞数
+        Notes notes = new Notes();
+        notes.setNid(nid);
+        int nlikes=nlikeTimes-1;
+        notes.setNlikeTimes(nlikes);
+        this.notesMapper.updateByPrimaryKeySelective(notes);
+        //获取点赞的数据
+        Nusers nusers = this.nusersMapper.selectByuid(uid);
+        String nlike = nusers.getNlike();
+        List<String> likess = Arrays.asList(nlike.split(","));
+        List<String> likes = new ArrayList<>(likess);
+        String newlike ="";
+        Iterator<String> iterator = likes.iterator();
+        while (iterator.hasNext()){
+          String like = iterator.next();
+           if (like.equals(String.valueOf(nid))){
+               iterator.remove();
+           }
+        }
+        for (int i = 0; i < likes.size(); i++) {
+            if (newlike.equals("")){
+                newlike=likes.get(i);
+            }else {
+                newlike=newlike+","+likes.get(i);
+            }
+        }
+        //将点赞的数据设置好
+        nusers.setNlike(newlike);
+        //对表进行更新
+        this.nusersMapper.updateByPrimaryKeySelective(nusers);
+        return PageResult.ok().add("nlikeTimes",newlike);
+    }
 }
