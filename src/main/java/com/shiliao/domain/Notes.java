@@ -16,10 +16,10 @@ public class Notes {
     private Integer nlikeTimes;//点赞数
     private String nimages ;//图片，多个图片以‘,’分割
     private Integer narea;//帖子所在的分区 0为浏览区 1为精品区  默认为0
-    private String ncategory;//功效/标签的分类
     private String ntitle;//文章标题
     private Date ndate;//文章创建时间
     private Long nuid;//外键
+    private Long ncategory;//帖子的标签名;
 
     @Transient
     private List<NotesDetails> notesDetails; //具体的评论数
@@ -30,6 +30,24 @@ public class Notes {
     private String udsex;//帖子用户的性别
     @Transient
     private String udimages;//帖子用户的头像
+    @Transient
+    private String category;//帖子的标签名;
+
+    public Long getNcategory() {
+        return ncategory;
+    }
+
+    public void setNcategory(Long ncategory) {
+        this.ncategory = ncategory;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public String getUdsex() {
         return udsex;
@@ -106,13 +124,6 @@ public class Notes {
         this.narea = narea;
     }
 
-    public String getNcategory() {
-        return ncategory;
-    }
-
-    public void setNcategory(String ncategory) {
-        this.ncategory = ncategory;
-    }
 
     public List<Map<String, String>> getNcategorys() {
         return ncategorys;

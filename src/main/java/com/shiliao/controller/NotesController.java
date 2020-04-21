@@ -43,7 +43,7 @@ public class NotesController {
                                      @RequestParam(value = "rows",required = false,defaultValue = "8")Integer rows,
                                      @RequestParam(value = "desc",required = false,defaultValue = "true")Boolean desc,
                                      @RequestParam(value = "sortBy",required = false)String sortBy,
-                                     @RequestParam(value = "ncategory",required = false)String ncategory,
+                                     @RequestParam(value = "ncategory",required = false)Long ncategory,
                                      @RequestParam(value = "narea",required = false)Integer narea){
 
         PageResult<Notes> result=this.notesService.findNotesByPage(key,page,rows,desc,sortBy,ncategory,narea);
@@ -153,21 +153,108 @@ public class NotesController {
      * 取消点赞
      * @param nid
      * @param uid
-     * @param nlikeTimes
+     * @param likeTimes
      * @return
      */
     @RequestMapping("unlike")
-    public PageResult unlike(Long nid,Long uid,Integer nlikeTimes){
+    public PageResult unlike(Long nid,Long uid,Integer likeTimes){
         if (nid!=null&&uid!=null){
-            if (nlikeTimes==null) {
-                nlikeTimes=0;
-                return this.notesService.unlike(nid, uid, nlikeTimes);
+            if (likeTimes==null) {
+                likeTimes=0;
+                return this.notesService.unlike(nid, uid, likeTimes);
             }else {
-                return this.notesService.unlike(nid, uid, nlikeTimes);
+                return this.notesService.unlike(nid, uid, likeTimes);
             }
         }
         return PageResult.error();
     }
+
+    /**
+     * 加入收藏
+     * @param nid
+     * @param uid
+     * @return
+     */
+    @RequestMapping("setCollect")
+    public PageResult setCollect(Long nid,Long uid){
+        try {
+            return this.notesService.setCollect(nid,uid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
+    }
+
+    /**
+     * 取消收藏
+     * @param nid
+     * @param uid
+     * @return
+     */
+    @RequestMapping("unCollect")
+    public PageResult unCollect(Long nid,Long uid){
+        try {
+            return this.notesService.unCollect(nid,uid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
+    }
+
+    /**
+     * 找到收藏的帖子，并且进行分页
+     * @param uid
+     * @return
+     */
+    @RequestMapping("findCollect")
+    public PageResult findCollect(Long uid,@RequestParam(value = "page",required = false,defaultValue = "1")Integer page,
+                                  @RequestParam(value = "rows",required = false,defaultValue = "7")Integer rows,
+                                  @RequestParam(value = "desc",required = false,defaultValue = "true")Boolean desc,
+                                  @RequestParam(value = "sortBy",required = false)String sortBy,
+                                  @RequestParam(value = "asc",required = false)String key,
+                                  @RequestParam(value = "ncategory",required = false)Long ncategory){
+
+        try {
+            return this.notesService.findCollect(uid,page,rows,sortBy,desc,key,ncategory);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
+
+
+    }
+
+    /**
+     * 设置精品
+     * @param nid
+     * @param uid
+     * @return
+     */
+    @RequestMapping("setQuality")
+    public PageResult setQuality(Long nid ,Long uid){
+        try {
+            return   this.notesService.setQuality(nid,uid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
+    }
+
+    /**
+     * 取消精品
+     * @param nid
+     * @return
+     */
+    @RequestMapping("unQuality")
+    public PageResult unQuality(Long nid ){
+        try {
+            return   this.notesService.unQuality(nid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
+    }
+
     /**
      * 图片上传
      * @param file

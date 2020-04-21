@@ -12,4 +12,6 @@ public interface NotesMapper extends Mapper<Notes> {
 
     @Select("select ntitle from notes where  nid = #{nid}")
     String selectNtitleByUid( @Param("nid") Long nid);
+
+
 }

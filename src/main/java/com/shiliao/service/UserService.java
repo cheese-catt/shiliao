@@ -35,9 +35,7 @@ public class UserService {
 
     //登录找用户
     public User findUser(User user) {
-        User record = new User();
-        record.setUname(user.getUname());
-        record.setUpwd(user.getUpwd());
+
         User user1 = this.userMapper.selectOne(user);
         if (user1==null){
             return null;

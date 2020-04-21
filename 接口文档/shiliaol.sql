@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `n_category`;
 
 CREATE TABLE `n_category` (
   `Cid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `category` varchar(20) NOT NULL COMMENT '每个区',
+  `category` varchar(20) NOT NULL COMMENT '每个标签',
   PRIMARY KEY (`Cid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -40,11 +40,11 @@ CREATE TABLE `n_users` (
   `Uid` bigint(20) DEFAULT NULL COMMENT '用户的ID',
   `Nlike` varchar(1024) DEFAULT NULL COMMENT '用户点赞的帖子ID，多个以逗号分隔',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `n_users` */
 
-insert  into `n_users`(`id`,`Nids`,`Uid`,`Nlike`) values (1,'5,4',3,'4,5');
+insert  into `n_users`(`id`,`Nids`,`Uid`,`Nlike`) values (1,'5,4',3,'4,6,7'),(2,'2,4,6,10',2,'2'),(3,'5,4',1,NULL),(4,NULL,4,NULL),(5,NULL,5,'3,2,4');
 
 /*Table structure for table `notes` */
 
@@ -53,20 +53,20 @@ DROP TABLE IF EXISTS `notes`;
 CREATE TABLE `notes` (
   `Nid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `Ndetails` varchar(3072) DEFAULT NULL COMMENT '帖子内容',
-  `Nvalid` tinyint(1) DEFAULT NULL COMMENT '是否显示 0为不显示',
-  `Nlike_times` bigint(20) DEFAULT NULL COMMENT '点赞数',
+  `Nvalid` tinyint(1) DEFAULT '1' COMMENT '是否显示 0为不显示',
+  `Nlike_times` bigint(20) DEFAULT '0' COMMENT '点赞数',
   `Nimages` varchar(3072) DEFAULT NULL COMMENT '图片',
-  `Narea` int(10) NOT NULL DEFAULT '0' COMMENT '帖子所在的分区 0为浏览区 1为精品区',
+  `Narea` int(10) NOT NULL DEFAULT '0' COMMENT '帖子所在的分区 0为浏览区 1为精品区，2为食谱区',
   `Ntitle` varchar(3075) DEFAULT NULL COMMENT '标题',
   `Ndate` datetime DEFAULT NULL COMMENT '创建日期',
   `Nuid` bigint(20) DEFAULT NULL COMMENT '对应的用户ID',
-  `Ncategory` varchar(40) DEFAULT NULL COMMENT '功效分类,多个以逗号分隔开',
+  `Ncategory` bigint(20) DEFAULT NULL COMMENT '帖子对应的标签id',
   PRIMARY KEY (`Nid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 /*Data for the table `notes` */
 
-insert  into `notes`(`Nid`,`Ndetails`,`Nvalid`,`Nlike_times`,`Nimages`,`Narea`,`Ntitle`,`Ndate`,`Nuid`,`Ncategory`) values (1,'大神',1,0,'',0,'das','2020-04-02 00:00:00',1,'1,2'),(2,'waaw',1,0,'',0,'ddddd','2020-04-08 00:00:00',1,'1,2'),(3,'ddd',1,0,'',0,'wa','2020-04-01 00:00:00',3,'2,3'),(4,'aaa',1,0,'',0,'da','2020-03-12 00:00:00',3,'3'),(5,'哎呀',1,0,'',0,'44','2020-03-11 00:00:00',1,'1'),(6,'oo',1,0,'',0,'88','2020-03-10 00:00:00',1,'1'),(7,'fff',1,0,'',0,'77','2020-04-08 14:55:45',NULL,'2'),(8,'2222',1,0,'',0,'33','2020-03-11 14:55:47',NULL,'1'),(9,'aaa',0,0,'',1,'33','2020-03-04 14:55:50',NULL,'1');
+insert  into `notes`(`Nid`,`Ndetails`,`Nvalid`,`Nlike_times`,`Nimages`,`Narea`,`Ntitle`,`Ndate`,`Nuid`,`Ncategory`) values (1,'大神',1,0,'',0,'das','2020-04-02 00:00:00',1,1),(2,'waaw',1,1,'',0,'ddddd','2020-04-08 00:00:00',1,2),(3,'ddd',1,10,'',0,'wa','2020-04-01 00:00:00',3,3),(4,'五杀',1,7,'',0,'da','2020-03-12 00:00:00',3,1),(5,'哎呀',1,9,'',0,'44','2020-03-11 00:00:00',1,3),(6,'oo',1,0,'',0,'88','2020-03-10 00:00:00',1,2),(7,'fff',1,0,'',0,'77','2020-04-08 14:55:45',2,1),(8,'2222',1,0,'',1,'33','2020-03-11 14:55:47',2,4),(9,'吃鸡',1,0,'',1,'33','2020-03-04 14:55:50',4,2),(10,'睡个美容觉',1,0,NULL,2,'嗷嗷嗷','2020-03-28 11:12:21',5,1),(11,'快来看',1,0,NULL,2,'点点点','2020-02-06 11:14:57',5,2),(12,'怎么',1,0,NULL,0,'不来梅拿','2020-03-06 11:17:01',5,3);
 
 /*Table structure for table `notes_details` */
 
@@ -97,9 +97,11 @@ CREATE TABLE `recipe` (
   `id` bigint(11) NOT NULL,
   `Rdetails` varchar(1024) DEFAULT NULL COMMENT '内容',
   `Rimages` varchar(1024) DEFAULT NULL COMMENT '图片',
-  `Rvalid` tinyint(1) DEFAULT NULL COMMENT '是否显示 1为显示',
+  `Rvalid` tinyint(1) DEFAULT '0' COMMENT '是否显示 1为显示',
   `Rtitles` varchar(1024) DEFAULT NULL COMMENT '标题',
   `Rdate` date DEFAULT NULL COMMENT '创建日期',
+  `uid` bigint(20) DEFAULT NULL COMMENT '对应的用户名',
+  `ncategory` binary(20) DEFAULT NULL COMMENT '标签id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -118,11 +120,11 @@ CREATE TABLE `u_details` (
   `UDsex` varchar(2) DEFAULT NULL COMMENT '性别',
   `Uid` bigint(20) DEFAULT NULL COMMENT '外键',
   PRIMARY KEY (`UDid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `u_details` */
 
-insert  into `u_details`(`UDid`,`UDnames`,`UDbirthday`,`UDsign`,`UDimage`,`UDsex`,`Uid`) values (1,'未命名','2020-04-10','太秀了',NULL,'男',1),(2,'wow',NULL,NULL,NULL,NULL,2),(3,'jimmy',NULL,NULL,NULL,NULL,3),(4,'tiffany',NULL,NULL,NULL,NULL,4);
+insert  into `u_details`(`UDid`,`UDnames`,`UDbirthday`,`UDsign`,`UDimage`,`UDsex`,`Uid`) values (1,'未命名','2020-04-10','太秀了',NULL,'男',1),(2,'haha',NULL,NULL,NULL,NULL,2),(3,'jimmy',NULL,NULL,NULL,NULL,3),(4,'tiffany',NULL,NULL,NULL,NULL,4),(5,'发财阿',NULL,'肝肾',NULL,'女',5),(6,'多名阿当时','2020-04-01','撒大大',NULL,'男',6);
 
 /*Table structure for table `users` */
 
@@ -141,7 +143,7 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`Uid`,`Uname`,`Upwd`,`Umail`,`Udate`,`Utype`,`Ustate`) values (1,'zhangsan','123','dsa','2020-04-02',0,1),(2,'lisi','234','sad','2020-04-02',0,1),(3,'zhangsan','1234','1','2020-04-13',0,1),(4,'zhangsan','12345','744900446@qq.com','2020-04-13',0,1),(5,'15625862010','123','384107082@qq.com','2020-04-13',0,1),(26,'zhangsann','1234','1','2020-04-14',0,1),(27,'15625862010','111111','744900446@qq.com','2020-04-14',0,1),(28,'zhangsann','1234','1','2020-04-14',0,1),(29,'15625862010','1','744900446@qq.com','2020-04-14',0,1),(30,'15625862010','1','744900446@qq.com','2020-04-14',0,1),(31,'15625862010','123','744900446@qq.com','2020-04-14',0,1),(32,'15625862010','111','744900446@qq.com','2020-04-14',0,1),(33,'15625862010','12345678','123456@qq.com','2020-04-14',0,1),(34,'sunzitong','12345678','744900446@qq.com','2020-04-14',0,1);
+insert  into `users`(`Uid`,`Uname`,`Upwd`,`Umail`,`Udate`,`Utype`,`Ustate`) values (1,'zhangsan','123','dsa','2020-04-02',0,1),(2,'lisi','234','sad','2020-04-02',0,1),(3,'zhangsan','1234','1','2020-04-13',0,1),(4,'zhangsan','111','hihoho','2020-04-13',0,1),(5,'15625862010','123','384107082@qq.com','2020-04-13',0,1),(26,'zhangsann','1234','1','2020-04-14',0,1),(27,'15625862010','111111','744900446@qq.com','2020-04-14',0,1),(28,'zhangsann','1234','1','2020-04-14',0,1),(29,'15625862010','1','744900446@qq.com','2020-04-14',0,1),(30,'15625862010','1','744900446@qq.com','2020-04-14',0,1),(31,'15625862010','123','744900446@qq.com','2020-04-14',0,1),(32,'15625862010','111','744900446@qq.com','2020-04-14',0,1),(33,'15625862010','12345678','123456@qq.com','2020-04-14',0,1),(34,'sunzitong','12345678','744900446@qq.com','2020-04-14',0,1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

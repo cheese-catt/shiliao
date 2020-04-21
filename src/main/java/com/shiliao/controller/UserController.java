@@ -39,6 +39,7 @@ public class UserController {
 
         if (user.getUname()!=null &&user.getUpwd()!=null){
        User user1 = this.userService.findUser(user);
+       //找到对应的数据之后，将其存入session域
        if (user1 == null){
            result.setFlag(false);
            result.setMsg("帐号或密码错误");

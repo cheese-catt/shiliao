@@ -35,18 +35,20 @@ public class NotesService {
 
 
     //找所有帖子
-    public PageResult<Notes> findNotesByPage(String key, Integer page, Integer rows, Boolean desc,String sortBy,String Ncategory,Integer Narea) {
+    public PageResult<Notes> findNotesByPage(String key, Integer page, Integer rows, Boolean desc,String sortBy,Long Ncategory,Integer Narea) {
 
         //初始化example对象
         Example example = new Example(Notes.class);
         Example.Criteria criteria = example.createCriteria();
 
-
+        //可以显示的
         criteria.andEqualTo("nvalid",true);
         if (Ncategory!=null){
+            //在对应标签下的
             criteria.andEqualTo("ncategory",Ncategory);
         }
         if (Narea!=null){
+            //在对应区域的
             criteria.andEqualTo("narea",Narea);
         }else {
             criteria.andEqualTo("narea",0);
@@ -63,6 +65,8 @@ public class NotesService {
         //添加排序条件
         if (StringUtils.isNotBlank(sortBy)&& desc!=null){
             example.setOrderByClause(sortBy+" "+ (desc?"desc":"aSC"));
+        }else {
+            example.setOrderByClause("ndate"+" "+ "desc");
         }
         //执行查询，并将帖子对应的具体信息添加上去 ,添加对应的标签名
         List<Notes> notes = this.notesMapper.selectByExample(example);
@@ -76,18 +80,17 @@ public class NotesService {
             note.setUdsex(userDetails.getUdsex());
             note.setUdimages(userDetails.getUdimage());
 
-            //查找出帖子对应的标签
-            //设置一个空的list<map>集合
-            List<Map<String, String>> categories = new ArrayList<>();
-            List<String> cids = Arrays.asList(note.getNcategory().split(","));
-            for (String cid : cids) {
-                //{1,2,3,4} 通过每个标签id找到对应的标签名 并将标签名设置进去notes返回给前端
-                Ncategory ncategory = this.ncategoryMapper.selectByPrimaryKey(cid);
-                Map<String, String> map = new HashMap<>();
-                map.put(cid.toString(), ncategory.getCategory());
-                categories.add(map);
+            //查找出帖子对应的标签名字
+            Ncategory category =new Ncategory();
+            if (Ncategory!=null) {
+                category = this.ncategoryMapper.selectByPrimaryKey(Ncategory);
+            }else {
+                category= this.ncategoryMapper.selectByPrimaryKey(note.getNcategory());
             }
-            note.setNcategorys(categories);
+            if (category!=null) {
+                note.setCategory(category.getCategory());
+            }
+
         }
 
 
@@ -153,22 +156,24 @@ public class NotesService {
         //找到用户对应的帖子
         List<Notes> notes = this.notesMapper.selectByExample(example);
 
+        for (Notes note : notes) {
+
+            //查找出帖子对应的标签名字
+            Ncategory category =new Ncategory();
+
+            category= this.ncategoryMapper.selectByPrimaryKey(note.getNcategory());
+            if (category!=null) {
+                note.setCategory(category.getCategory());
+            }
+
+        }
+
 
         //把帖子都包装进去
         PageInfo<Notes> pageInfo = new PageInfo<Notes>(notes);
 
         return new PageResult<>(pageInfo.getTotal(),pageInfo.getPages(),pageInfo.getList(),true);
-        /*
-        PageResult result = new PageResult();
-        result.setItems(notes);
-        result.setFlag(true);
-        result.setMsg("返回成功");
-        long l = Long.parseLong(count.toString());
-        result.setTotal(l);
-        return result;
-                //查找总数
-        Integer count =(Integer) this.notesMapper.selectCount(record);
-        */
+
     }
 
     //找到具体的帖子内容和信息
@@ -281,8 +286,8 @@ public class NotesService {
         return PageResult.ok().add("likeTimes",liketime);
     }
 
-    @Transactional
     //取消点赞
+    @Transactional
     public PageResult unlike(Long nid, Long uid, Integer nlikeTimes) {
         // 找到当前帖子下的点赞数
         Notes notes = new Notes();
@@ -314,6 +319,168 @@ public class NotesService {
         nusers.setNlike(newlike);
         //对表进行更新
         this.nusersMapper.updateByPrimaryKeySelective(nusers);
-        return PageResult.ok().add("nlikeTimes",newlike);
+        return PageResult.ok().add("nlikeTimes",nlikes);
+    }
+
+    //设置收藏
+    @Transactional
+    public PageResult setCollect(Long nid, Long uid) {
+        //获取收藏的数据
+        Nusers nusers = this.nusersMapper.selectByuid(uid);
+        String nids = nusers.getNids();
+
+        if (!StringUtils.isEmpty(nids)){
+            //如果点赞不为空
+            nids=nids + "," +nid.toString();
+        }else {
+            //如果为空
+            nids=nid.toString();
+        }
+        //将收藏的数据设置好
+        nusers.setNids(nids);
+        //对表进行更新
+        this.nusersMapper.updateByPrimaryKeySelective(nusers);
+        return PageResult.ok();
+    }
+
+    //取消收藏
+    @Transactional
+    public PageResult unCollect(Long nid, Long uid) {
+        //获取收藏的数据
+        Nusers nusers = this.nusersMapper.selectByuid(uid);
+        String nids = nusers.getNids();
+
+        //将String字符串变成List集合
+        List<String> nidss = Arrays.asList(nids.split(","));
+        List<String> collect = new ArrayList<>(nidss);
+        //定义一个空的字符串接收
+        String newcollect ="";
+
+        //集合的迭代器
+        Iterator<String> iterator = collect.iterator();
+        while (iterator.hasNext()){
+            String like = iterator.next();
+            if (like.equals(String.valueOf(nid))){
+                //如果有对应的帖子id就去掉
+                iterator.remove();
+            }
+        }
+        //把剩下的List集合重新组合成新的String字符串
+        for (int i = 0; i < collect.size(); i++) {
+            if (newcollect.equals("")){
+                newcollect=collect.get(i);
+            }else {
+                newcollect=newcollect+","+collect.get(i);
+            }
+        }
+        //将收藏的数据设置好
+        nusers.setNids(newcollect);
+        //对表进行更新
+        this.nusersMapper.updateByPrimaryKeySelective(nusers);
+        return PageResult.ok().add("newcollect",newcollect);
+
+    }
+
+    //找到收藏的帖子并分页
+    @Transactional
+    public PageResult findCollect(Long uid, Integer page, Integer rows,String sortBy, Boolean desc,String key,Long Ncategory) {
+        //拿到的收藏帖子数据
+        Nusers nusers = this.nusersMapper.selectByuid(uid);
+        String nids = nusers.getNids();
+
+        //将String字符串变成List集合
+        List<String> collect = Arrays.asList(nids.split(","));
+
+        //建立例子模板
+        Example example = new Example(Notes.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        //可以进行显示的
+        criteria.andEqualTo("nvalid",true);
+        //nid在这些帖子里的
+        criteria.andIn("nid",collect);
+
+        //根据name模糊查询，或者首字母查询
+        if (StringUtils.isNotBlank(key)){
+            criteria.andLike("ntitle","%" + key + "%");
+        }
+
+        if (Ncategory!=null){
+            //在对应标签下的
+            criteria.andEqualTo("ncategory",Ncategory);
+        }
+
+        //设置分页条件
+        PageHelper.startPage(page,rows);
+        //添加排序条件
+        if (StringUtils.isNotBlank(sortBy)&& desc!=null){
+            example.setOrderByClause(sortBy+" "+ (desc?"desc":"asc"));
+        }else {
+            example.setOrderByClause("narea"+" "+ "desc");
+        }
+
+        //找到对应的帖子集合
+        List<Notes> notes = this.notesMapper.selectByExample(example);
+
+        //使用分页工具，把所有的帖子放进去进行分页
+        PageInfo pageInfo = new PageInfo(notes);
+
+        for (Notes note : notes) {
+            Example example1 = new Example(UserDetails.class);
+            example1.createCriteria().andEqualTo("uid", note.getNuid());
+            UserDetails userDetails = this.userDetailsMapper.selectOneByExample(example1);
+
+            //添加用户名，头像，性别信息
+            note.setUdnames(userDetails.getUdnames());
+            note.setUdsex(userDetails.getUdsex());
+            note.setUdimages(userDetails.getUdimage());
+            Ncategory category =new Ncategory();
+            //查找出帖子对应的标签名字
+            if (Ncategory!=null) {
+                category = this.ncategoryMapper.selectByPrimaryKey(Ncategory);
+            }else {
+                category= this.ncategoryMapper.selectByPrimaryKey(note.getNcategory());
+            }
+            if (category!=null) {
+                note.setCategory(category.getCategory());
+            }
+
+
+        }
+
+        PageResult<Notes> result = new PageResult<>(pageInfo.getTotal(),pageInfo.getList());
+        result.setMsg("返回成功");
+        result.setFlag(true);
+
+        return result;
+    }
+
+    //设置精品
+    @Transactional
+    public PageResult setQuality(Long nid,Long uid) {
+        //确认本贴是否是管理员本人的帖子
+        Notes notes1 = this.notesMapper.selectByPrimaryKey(nid);
+        //如果是本人的帖子，不能设置为精品
+        if (notes1.getNuid().equals(uid)){
+            PageResult pageResult = new PageResult();
+            pageResult.setFlag(false);
+            pageResult.setMsg("不能将本人的帖子设置为精品");
+            return pageResult;
+        }
+        Notes notes = new Notes();
+       notes.setNarea(1);
+       notes.setNid(nid);
+       this.notesMapper.updateByPrimaryKeySelective(notes);
+       return PageResult.ok();
+    }
+
+    //取消精品
+    @Transactional
+    public PageResult unQuality(Long nid){
+        Notes notes = new Notes();
+        notes.setNarea(0);
+        notes.setNid(nid);
+        this.notesMapper.updateByPrimaryKeySelective(notes);
+        return PageResult.ok();
     }
 }
