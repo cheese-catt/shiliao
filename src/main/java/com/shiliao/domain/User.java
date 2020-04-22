@@ -14,9 +14,18 @@ public class User {
     private Date udate; //创建日期
     private  Boolean utype;//用户类型 1代表管理员 0代表普通
     private Boolean ustate;//用户状态 1代表已激活 0代表未激活
+    private String salt;
 
     @Transient
     private UserDetails userDetails; //用户个性信息
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
     public UserDetails getUserDetails() {
         return userDetails;

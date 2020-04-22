@@ -6,9 +6,13 @@ import com.shiliao.mapper.UserDetailsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
+import tk.mybatis.mapper.entity.Example;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -18,10 +22,18 @@ public class UserDetailsService {
     @Autowired
     UserDetailsMapper userDetailsMapper;
 
+    //更新用户信息
     @Transactional
-    public PageResult updateUserDetails(UserDetails userDetails) {
-       this.userDetailsMapper.updateByPrimaryKeySelective(userDetails);
-       PageResult pageResult = new PageResult();
+    public PageResult updateUserDetails(UserDetails userDetails, HttpSession session) {
+        Example example = new Example(UserDetails.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("uid", userDetails.getUid());
+
+        this.userDetailsMapper.updateByExampleSelective(userDetails,example);
+
+        session.removeAttribute("userDetail");
+        session.setAttribute("userDetail",userDetails);
+
       return   PageResult.ok().add("userDetails",userDetails);
     }
 
@@ -68,4 +80,17 @@ public class UserDetailsService {
         return root;
     }
 
+    //找到详细信息
+    public PageResult findUserDetails(Long uid) {
+
+        Example example = new Example(UserDetails.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("uid", uid);
+        List<UserDetails> userDetails = this.userDetailsMapper.selectByExample(example);
+        if (!CollectionUtils.isEmpty(userDetails)){
+          return PageResult.ok().add("userDetails",userDetails.get(0)) ;
+        }else {
+            return PageResult.error();
+        }
+    }
 }

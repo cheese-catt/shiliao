@@ -40,11 +40,11 @@ CREATE TABLE `n_users` (
   `Uid` bigint(20) DEFAULT NULL COMMENT '用户的ID',
   `Nlike` varchar(1024) DEFAULT NULL COMMENT '用户点赞的帖子ID，多个以逗号分隔',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `n_users` */
 
-insert  into `n_users`(`id`,`Nids`,`Uid`,`Nlike`) values (1,'5,4',3,'4,6,7'),(2,'2,4,6,10',2,'2'),(3,'5,4',1,NULL),(4,NULL,4,NULL),(5,NULL,5,'3,2,4');
+insert  into `n_users`(`id`,`Nids`,`Uid`,`Nlike`) values (1,'5,4',3,'4,6,7'),(2,'2,4,6,10',2,'2'),(3,'5,4',1,NULL),(4,NULL,4,NULL),(5,NULL,5,'3,2,4'),(6,NULL,35,NULL);
 
 /*Table structure for table `notes` */
 
@@ -120,11 +120,11 @@ CREATE TABLE `u_details` (
   `UDsex` varchar(2) DEFAULT NULL COMMENT '性别',
   `Uid` bigint(20) DEFAULT NULL COMMENT '外键',
   PRIMARY KEY (`UDid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `u_details` */
 
-insert  into `u_details`(`UDid`,`UDnames`,`UDbirthday`,`UDsign`,`UDimage`,`UDsex`,`Uid`) values (1,'未命名','2020-04-10','太秀了',NULL,'男',1),(2,'haha',NULL,NULL,NULL,NULL,2),(3,'jimmy',NULL,NULL,NULL,NULL,3),(4,'tiffany',NULL,NULL,NULL,NULL,4),(5,'发财阿',NULL,'肝肾',NULL,'女',5),(6,'多名阿当时','2020-04-01','撒大大',NULL,'男',6);
+insert  into `u_details`(`UDid`,`UDnames`,`UDbirthday`,`UDsign`,`UDimage`,`UDsex`,`Uid`) values (1,'的撒大','2020-04-10','太秀了',NULL,'男',1),(2,'haha',NULL,NULL,NULL,NULL,2),(3,'jimmy',NULL,NULL,NULL,NULL,3),(4,'tiffany',NULL,NULL,NULL,NULL,4),(5,'发财阿',NULL,'肝肾',NULL,'女',5),(6,'多名阿当时','2020-04-01','撒大大',NULL,'男',6),(7,'65a63171',NULL,NULL,NULL,NULL,35);
 
 /*Table structure for table `users` */
 
@@ -133,17 +133,19 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `Uid` bigint(20) NOT NULL AUTO_INCREMENT,
   `Uname` varchar(1024) NOT NULL,
-  `Upwd` varchar(80) NOT NULL,
+  `Upwd` varchar(1024) NOT NULL,
   `Umail` varchar(40) NOT NULL,
   `Udate` date NOT NULL,
   `Utype` tinyint(1) NOT NULL DEFAULT '0' COMMENT '管理员1',
   `Ustate` tinyint(1) NOT NULL DEFAULT '0' COMMENT '已经激活1',
+  `Usuper` tinyint(1) DEFAULT '0' COMMENT 'true代表是超管 能够设置管理员',
+  `salt` varchar(255) DEFAULT NULL COMMENT '盐',
   PRIMARY KEY (`Uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 /*Data for the table `users` */
 
-insert  into `users`(`Uid`,`Uname`,`Upwd`,`Umail`,`Udate`,`Utype`,`Ustate`) values (1,'zhangsan','123','dsa','2020-04-02',0,1),(2,'lisi','234','sad','2020-04-02',0,1),(3,'zhangsan','1234','1','2020-04-13',0,1),(4,'zhangsan','111','hihoho','2020-04-13',0,1),(5,'15625862010','123','384107082@qq.com','2020-04-13',0,1),(26,'zhangsann','1234','1','2020-04-14',0,1),(27,'15625862010','111111','744900446@qq.com','2020-04-14',0,1),(28,'zhangsann','1234','1','2020-04-14',0,1),(29,'15625862010','1','744900446@qq.com','2020-04-14',0,1),(30,'15625862010','1','744900446@qq.com','2020-04-14',0,1),(31,'15625862010','123','744900446@qq.com','2020-04-14',0,1),(32,'15625862010','111','744900446@qq.com','2020-04-14',0,1),(33,'15625862010','12345678','123456@qq.com','2020-04-14',0,1),(34,'sunzitong','12345678','744900446@qq.com','2020-04-14',0,1);
+insert  into `users`(`Uid`,`Uname`,`Upwd`,`Umail`,`Udate`,`Utype`,`Ustate`,`Usuper`,`salt`) values (2,'lisi','1234','sad','2020-04-02',0,1,0,NULL),(3,'zhangsan1','1234','1','2020-04-13',0,1,0,NULL),(4,'zhangsan2','111','hihoho','2020-04-13',0,1,0,NULL),(5,'156258620101','123','384107082@qq.com','2020-04-13',0,1,0,NULL),(26,'zhangsann2','1234','1','2020-04-14',0,1,0,NULL),(27,'15625862010','111111','744900446@qq.com','2020-04-14',0,1,0,NULL),(28,'zhangsann','1234','1','2020-04-14',0,1,0,NULL),(29,'2','1','744900446@qq.com','2020-04-14',0,1,0,NULL),(30,'3','1','744900446@qq.com','2020-04-14',0,1,0,NULL),(31,'156258620103','123','744900446@qq.com','2020-04-14',0,1,0,NULL),(32,'156258620104','111','744900446@qq.com','2020-04-14',0,1,0,NULL),(33,'156258620105','12345678','123456@qq.com','2020-04-14',0,1,0,NULL),(34,'sunzitong','12345678','744900446@qq.com','2020-04-14',0,1,0,NULL),(35,'??','123','2813062251@qq.com','2020-04-22',0,0,0,NULL),(38,'213','213','123123','2020-04-22',0,0,0,NULL),(39,'zhangsan','10790e87bd85702a4fb95b8bc296f095','2813062251@qq.com','2020-04-22',0,0,0,'1294ff1b25b74e1088217ed72e4b2ca0');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

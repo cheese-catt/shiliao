@@ -30,53 +30,38 @@ public class UserController {
     /**
      * 登录 并且附带有用户的个人信息
      * @param user
-     * @param model
+     * @param session
      * @return
      */
     @PostMapping("login")
-    public PageResult findUser(User user , Model model){
-        PageResult result = new PageResult();
+    public PageResult findUser(User user , HttpSession session){
 
-        if (user.getUname()!=null &&user.getUpwd()!=null){
-       User user1 = this.userService.findUser(user);
-       //找到对应的数据之后，将其存入session域
-       if (user1 == null){
-           result.setFlag(false);
-           result.setMsg("帐号或密码错误");
-           return result;
+        try {
+            return this.userService.findUser(user,session);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
 
-       }else {
-            List<User> users = Arrays.asList(user1);
-            result.setItems(users);
-            result.setFlag(true);
-
-           model.addAttribute("user",user1);
-            return  result;
-        }}
-        result.setFlag(false);
-        result.setMsg("帐号或密码错误");
-
-        return result;
     }
 
     /**
      * 注册
      * @param user
-     * @param model
+     * @param session
      * @return
      */
-    @PostMapping("regist")
-    public PageResult queryUserbyId(User user ,Model model){
-        PageResult result = new PageResult();
-        if (user!=null) {
-            this.userService.insertUser(user);
-            result.setFlag(true);
+    @RequestMapping("regist")
+    public PageResult queryUserbyId(User user ,HttpSession session){
 
-            return result;
+        if (user!=null) {
+            this.userService.insertUser(user,session);
+           return PageResult.ok();
+
         }
 
-        result.setMsg("注册失败，请稍后重试");
-        return result;
+
+        return PageResult.error();
     }
 
     //获取验证码
@@ -115,13 +100,90 @@ public class UserController {
      * @return
      */
     @RequestMapping("update")
-    public PageResult updateUser(@RequestBody User user){
+    public PageResult updateUser( User user,HttpSession session){
         try {
-            this.userService.updateUser(user);
+            this.userService.updateUser(user,session);
         } catch (Exception e) {
             e.printStackTrace();
             return PageResult.error();
         }
         return PageResult.ok();
+    }
+
+    /**
+     * 邮箱激活
+     * @param session
+     * @return
+     */
+    @RequestMapping("setUstate")
+    public PageResult setUstate(HttpSession session){
+        try {
+            return  this.userService.setUstate(session);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
+
+    }
+
+    /**
+     * 找重名
+     * @param uname
+     * @return
+     */
+    @RequestMapping("findUname")
+    public PageResult findUname(String uname){
+        try {
+            return this.userService.findUname(uname);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
+    }
+
+    /**
+     * 找重邮箱
+     * @param umail
+     * @return
+     */
+    @RequestMapping("findUmail")
+    public PageResult findUmail(String umail){
+        try {
+            return this.userService.findUmail(umail);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
+    }
+
+    /**
+     * 找回密码邮件
+     * @param umail
+     * @param model
+     * @return
+     */
+    @RequestMapping("sendPwdMail")
+    public PageResult sendForgetPwd(String umail,Model model){
+        try {
+            return this.userService.sendPwdMail(umail,model);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
+    }
+
+    /**
+     * 重新设置密码
+     * @param user
+     * @return
+     */
+    @RequestMapping("findpwd")
+    public PageResult updateUserByUmail(User user){
+        try {
+            return this.userService.updateUserByUmail(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
     }
 }

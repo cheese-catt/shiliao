@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -34,15 +35,11 @@ public class UserDetailsController {
      * @return
      */
     @RequestMapping("update")
-    public PageResult updateUserDetails(@RequestBody User user){
+    public PageResult updateUserDetails(UserDetails user, HttpSession session){
 
         try {
             if (user!=null) {
-
-                 this.userService.updateUser(user);
-                if (user.getUserDetails() != null) {
-                    this.userDetailsService.updateUserDetails(user.getUserDetails());
-                }
+                 this.userDetailsService.updateUserDetails(user,session);
                 return PageResult.ok().add("user",user);
             }
 
@@ -61,5 +58,21 @@ public class UserDetailsController {
     @RequestMapping("imageUpload")
     public Map imageUpload(@RequestParam("udimage") MultipartFile file) {
         return this.userDetailsService.upload(file);
+    }
+
+
+    /**
+     * 通过uid找用户详细信息
+     * @param uid
+     * @return
+     */
+    @RequestMapping("findUserDetails")
+    public PageResult findUserDetails(Long uid){
+        try {
+            return this.userDetailsService.findUserDetails(uid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PageResult.error();
+        }
     }
 }
