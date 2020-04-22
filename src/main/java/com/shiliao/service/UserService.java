@@ -93,12 +93,13 @@ public class UserService {
         userDetails.setUdnames("未命名"+UUID.randomUUID().toString().substring(0,7));
         userDetails.setUid(user.getUid());
         this.userDetailsMapper.insertSelective(userDetails);
+        */
 
         //发送邮箱激活
         String htmlStr = "<a href='http://localhost:8080/pages/index.html' >点击此处进行邮箱激活</a>";
 
         this.mailService.sendMimeMessge(user.getUmail(),"食疗论坛邮箱激活",htmlStr);
-        */
+        
     }
 
     //获取验证码
